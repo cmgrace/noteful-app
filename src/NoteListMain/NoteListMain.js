@@ -6,6 +6,7 @@ import CircleButton from "../CircleButton/CircleButton";
 import "./NoteListMain.css";
 import { getNotesForFolder } from "../notes-helpers";
 import NotesContext from "../NotesContext";
+import PropTypes from "prop-types";
 
 export default class NoteListMain extends React.Component {
   static defaultProps = {
@@ -14,16 +15,27 @@ export default class NoteListMain extends React.Component {
     },
   };
   static contextType = NotesContext;
+
+  handleDeleteNote = (noteId) => {
+    this.props.history.push(`/`);
+  };
+
   render() {
     const { notes = [] } = this.context;
     const { folderId } = this.props.match.params;
     const notesForFolder = getNotesForFolder(notes, folderId);
+    //console.log(notesForFolder);
     return (
       <section className="NoteListMain">
         <ul>
           {notesForFolder.map((note) => (
             <li key={note.id}>
-              <Note id={note.id} name={note.name} modified={note.modified} />
+              <Note
+                id={note.id}
+                name={note.name}
+                modified={note.modified}
+                onDeleteNote={this.handleDeleteNote}
+              />
             </li>
           ))}
         </ul>
@@ -46,4 +58,8 @@ export default class NoteListMain extends React.Component {
 
 NoteListMain.defaultProps = {
   notes: [],
+};
+
+NoteListMain.prototype = {
+  match: PropTypes.object.isRequired,
 };

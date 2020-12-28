@@ -40,8 +40,8 @@ class addNote extends Component {
         return res.json();
       })
       .then((data) => {
+        this.context.addNote(data);
         this.props.history.push(`/folder/${data.folderId}`);
-        this.context.addNote(note);
       })
       .catch((error) => {
         this.setState({ error });

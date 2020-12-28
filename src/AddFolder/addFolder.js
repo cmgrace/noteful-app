@@ -15,7 +15,6 @@ class addFolder extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const folder = { name: this.state.folderName };
-    console.log(folder);
     this.setState({ error: null });
 
     fetch(`${config.API_ENDPOINT}/folders`, {
@@ -33,16 +32,16 @@ class addFolder extends Component {
         return res.json();
       })
       .then((data) => {
-        this.props.history.push(`/folder/${folder.id}`);
-        this.context.addFolder(folder);
+        this.context.addFolder(data);
+        this.props.history.push(`/`);
       })
       .catch((error) => {
         this.setState({ error });
         console.error({ error });
       });
   };
-  updateFolderName = (newForlderName) => {
-    this.setState({ folderName: newForlderName });
+  updateFolderName = (newFolderName) => {
+    this.setState({ folderName: newFolderName });
   };
 
   handleClickCancel = () => {

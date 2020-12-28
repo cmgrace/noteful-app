@@ -4,6 +4,8 @@ import CircleButton from "../CircleButton/CircleButton";
 import "./NotePageNav.css";
 import NotesContext from "../NotesContext";
 import { findNote, findFolder } from "../notes-helpers";
+import PropTypes from "prop-types";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 export default class NotePageNav extends React.Component {
   static defaultProps = {
@@ -23,19 +25,28 @@ export default class NotePageNav extends React.Component {
     const folder = findFolder(folders, note.folderId);
 
     return (
-      <div className="NotePageNav">
-        <CircleButton
-          tag="button"
-          role="link"
-          onClick={() => this.props.history.goBack()}
-          className="NotePageNav__back-button"
-        >
-          <FontAwesomeIcon icon="chevron-left" />
-          <br />
-          Back
-        </CircleButton>
-        {folder && <h3 className="NotePageNav__folder-name">{folder.name}</h3>}
-      </div>
+      <ErrorBoundary>
+        <div className="NotePageNav">
+          <CircleButton
+            tag="button"
+            role="link"
+            onClick={() => this.props.history.goBack()}
+            className="NotePageNav__back-button"
+          >
+            <FontAwesomeIcon icon="chevron-left" />
+            <br />
+            Back
+          </CircleButton>
+          {folder && (
+            <h3 className="NotePageNav__folder-name">{folder.name}</h3>
+          )}
+        </div>
+      </ErrorBoundary>
     );
   }
 }
+
+NotePageNav.propTypes = {
+  history: PropTypes.object,
+  match: PropTypes.object,
+};
